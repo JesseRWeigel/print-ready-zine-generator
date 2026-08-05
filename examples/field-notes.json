@@ -1,0 +1,36 @@
+{
+  "title": "Small Signals",
+  "subtitle": "Field notes for observant walks",
+  "issue": "Issue 01",
+  "editor": "Community Print Workshop",
+  "date": "Spring 2026",
+  "articles": [
+    {
+      "title": "Read the Curb",
+      "author": "Mara Cole",
+      "body": "A curb records small decisions. Fresh paint marks a repair. Seeds collect where rain slows. Tire dust gathers near the turn. Walk one block at half speed and write down each change in material.\n\nRepeat the walk after rain. Compare the notes and circle every sign of water. That map tells a quieter story than the street signs do."
+    },
+    {
+      "title": "Borrowed Shade",
+      "author": "Nico Bell",
+      "body": "Trees cast public rooms across private boundaries. At noon, note where people pause without planning to stop. A narrow strip of shade can become a bench, a meeting point, or a place to set down groceries.\n\nTrace the shade with chalk if the surface permits it. Return an hour later. The moving edge is a simple clock shared by everyone on the block."
+    },
+    {
+      "title": "Window Weather",
+      "author": "Iris Penn",
+      "body": "Windows give weather a frame. Choose one view and describe it without naming the season. Record the color of the light, the speed of branches, and the direction people lean as they walk.\n\nKeep the description for six months. When you read it again, the omitted season may feel clearer than a date written at the top of the page."
+    },
+    {
+      "title": "A Pocket Archive",
+      "author": "Sol Reyes",
+      "body": "A useful archive can fit inside one envelope. Save a transit receipt, a fallen label, a quick sketch, and one sentence overheard with permission to record it. Add the place and date to each item.\n\nAt the end of the month, arrange the pieces by color instead of time. New neighbors appear between events that seemed unrelated when they happened."
+    }
+  ],
+  "colophon": {
+    "publisher": "Community Print Workshop",
+    "location": "Made for local printing",
+    "license": "Creative Commons Attribution 4.0",
+    "printing": "Black text with one spot-color accent",
+    "notes": "Source articles are plain text and may be revised before printing."
+  }
+}
