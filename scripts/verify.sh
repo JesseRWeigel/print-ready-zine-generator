@@ -17,12 +17,12 @@ if ! (cd "$PROJECT_ROOT" && python3 -m unittest discover -s tests -v) >"$UNIT_LO
   cat "$UNIT_LOG" >&2
   exit 1
 fi
-if ! grep -Fq "Ran 7 tests" "$UNIT_LOG"; then
+if ! grep -Fq "Ran 8 tests" "$UNIT_LOG"; then
   cat "$UNIT_LOG" >&2
   echo "FAIL unit test count changed, update the verified status deliberately" >&2
   exit 1
 fi
-echo "PASS unit: 7 tests"
+echo "PASS unit: 8 tests"
 
 SADDLE_OUTPUT="$VERIFY_TMP/saddle"
 MINI_OUTPUT="$VERIFY_TMP/mini"
@@ -49,7 +49,7 @@ root = Path(sys.argv[1])
 readme = (root / "README.md").read_text(encoding="utf-8")
 required = [
     "## Status",
-    "PASS unit: 7 tests",
+    "PASS unit: 8 tests",
     "PASS clean clone: verified committed snapshot from outside the source tree",
     "## Unfinished",
 ]

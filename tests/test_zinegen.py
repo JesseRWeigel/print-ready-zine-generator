@@ -1,4 +1,9 @@
+import json
+import subprocess
+import sys
+import tempfile
 import unittest
+from pathlib import Path
 
 import zinegen
 
@@ -48,6 +53,37 @@ class InputTests(unittest.TestCase):
             zinegen.validate_publication(
                 {"title": "Issue", "articles": [{"title": "Entry", "body": ["wrong"]}]}
             )
+
+    def test_unsupported_unicode_returns_clean_build_error(self):
+        publication = {
+            "title": "Glyph probe",
+            "articles": [
+                {
+                    "title": "Mixed text",
+                    "body": "Smart quotes, an en\u2013dash, an emoji \U0001f9f5, \u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac, and \u65e5\u672c\u8a9e.",
+                }
+            ],
+        }
+        with tempfile.TemporaryDirectory(prefix="zine-unicode-") as temporary:
+            root = Path(temporary)
+            input_path = root / "input.json"
+            input_path.write_text(json.dumps(publication, ensure_ascii=False), encoding="utf-8")
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(Path(__file__).resolve().parents[1] / "zinegen.py"),
+                    str(input_path),
+                    "--output",
+                    str(root / "output"),
+                    "--mode",
+                    "saddle",
+                ],
+                text=True,
+                capture_output=True,
+            )
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("error: pdfLaTeX failed", result.stderr)
+        self.assertNotIn("Traceback", result.stderr)
 
 
 if __name__ == "__main__":

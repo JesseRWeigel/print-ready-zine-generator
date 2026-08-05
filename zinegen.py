@@ -442,7 +442,14 @@ def run_latex(tex_path: Path, passes: int) -> None:
     ]
     combined = []
     for pass_number in range(1, passes + 1):
-        result = subprocess.run(command, cwd=tex_path.parent, text=True, capture_output=True)
+        result = subprocess.run(
+            command,
+            cwd=tex_path.parent,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            capture_output=True,
+        )
         combined.append(f"=== pass {pass_number} ===\n{result.stdout}\n{result.stderr}")
         if result.returncode:
             (tex_path.parent / f"{tex_path.stem}.build.log").write_text("\n".join(combined))

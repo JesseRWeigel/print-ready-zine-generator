@@ -29,7 +29,8 @@ python3 zinegen.py examples/field-notes.json \
 
 Use `--mode mini` for the single-sheet version. Use `--paper a4` for an A4 parent sheet.
 The build requires Python 3, pdfLaTeX, and MuPDF's `mutool`. No Python packages or network
-services are required.
+services are required. Characters supported by the installed pdfLaTeX fonts are accepted.
+Unsupported scripts and emoji stop the build with a compiler error that names the failing input.
 
 The input file has this shape:
 
@@ -67,7 +68,7 @@ bash scripts/verify.sh
 ## Status
 
 ```text
-PASS unit: 7 tests
+PASS unit: 8 tests
 PASS saddle: 8 content pages, 4 imposed spreads, trim and bleed marks, verified fold order
 PASS mini: 8 panels on 1 sheet, inverted top row, cut guide, contents and colophon
 PASS project: README status, tracked text, size, and credential scan
@@ -81,3 +82,5 @@ PASS clean clone: verified committed snapshot from outside the source tree
 - Mini mode stops with an error when the articles occupy more than seven reading pages before
   the page-eight colophon. It does not shrink overflowing material automatically.
 - The PDFs use process colors and do not embed a printer-specific ICC output profile.
+- The bundled pdfLaTeX font setup does not typeset every Unicode script or emoji. Unsupported
+  characters produce a clean build error.
