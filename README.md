@@ -2,7 +2,7 @@
 
 Take a collection of articles and emit a LaTeX-built PDF imposed for saddle-stitch printing, with correct page ordering for folding, bleed marks, and a generated table of contents and colophon. Include an eight-page single-sheet mini-zine imposition mode because that is the format people actually print at home.
 
-Catalog task: `MEDIA-038`. Part of [thousand](../../README.md).
+Catalog task: `MEDIA-038`. One of a public catalog of build ideas: https://github.com/JesseRWeigel/722-things-to-build
 
 ## What this is
 
