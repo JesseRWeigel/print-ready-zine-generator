@@ -68,22 +68,44 @@ secret_patterns = [
     re.compile(rb"sk-[A-Za-z0-9_-]{20,}"),
     re.compile(rb"-----BEGIN [A-Z ]*PRIVATE KEY-----"),
 ]
+# WHY A NUL BYTE IS NORMALLY A FAILURE. The scans below read tracked files as bytes and look for
+# credentials, home paths and em dashes. That is only worth anything if the files are readable text;
+# a binary blob could carry any of them in a compressed stream where no pattern here would match. So
+# "contains a NUL" is really "this file cannot be scanned", and it fails.
+#
+# ONE FILE IS ALLOWED TO BE BINARY, AND IT IS NAMED. This tool imposes zines and the published page
+# links the imposed PDF, so the PDF is a deliverable rather than a stray artifact. Naming it keeps
+# the exemption from spreading: a second binary appearing is still a failure, and the list is
+# checked in both directions so it cannot rot.
+BINARY_BY_DESIGN = {"docs/zine-saddle.pdf"}
+seen_binary = set()
+
 for relative in listed:
     if not relative:
         continue
-    path = root / relative.decode()
+    name = relative.decode()
+    path = root / name
     data = path.read_bytes()
     if len(data) > 1_000_000:
-        raise SystemExit(f"tracked file exceeds 1 MB: {relative.decode()}")
+        raise SystemExit(f"tracked file exceeds 1 MB: {name}")
     if b"\0" in data:
-        raise SystemExit(f"tracked file contains a NUL byte: {relative.decode()}")
+        if name not in BINARY_BY_DESIGN:
+            raise SystemExit(f"tracked file contains a NUL byte: {name}")
+        seen_binary.add(name)
     if (b"/" + b"home/") in data:
-        raise SystemExit(f"tracked file contains an absolute home path: {relative.decode()}")
+        raise SystemExit(f"tracked file contains an absolute home path: {name}")
     if b"\xe2\x80\x94" in data:
-        raise SystemExit(f"tracked file contains an em dash: {relative.decode()}")
+        raise SystemExit(f"tracked file contains an em dash: {name}")
     for pattern in secret_patterns:
         if pattern.search(data):
-            raise SystemExit(f"tracked file contains a credential-shaped string: {relative.decode()}")
+            raise SystemExit(f"tracked file contains a credential-shaped string: {name}")
+
+# The exemption is checked the other way round too. A name left here after the file stops being
+# binary, or stops being tracked, is an exemption nobody is looking at any more.
+if seen_binary != BINARY_BY_DESIGN:
+    stale = sorted(BINARY_BY_DESIGN - seen_binary)
+    raise SystemExit(f"these files are exempted from the text scan but are not tracked binaries: "
+                     f"{', '.join(stale)}")
 PY
 echo "PASS project: README status, tracked text, size, and credential scan"
 
